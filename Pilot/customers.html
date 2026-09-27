@@ -24,7 +24,13 @@ const form = document.querySelector('[data-interest-form]');
 if (form) {
   const status = form.querySelector('[data-status]');
   const button = form.querySelector('button[type="submit"]');
-  form.querySelectorAll('[data-rank]').forEach(input => input.addEventListener('change', () => form.querySelectorAll('[data-rank]').forEach(field => field.setCustomValidity(''))));
+  const rankFields = [...form.querySelectorAll('[data-rank]')];
+  rankFields.forEach(input => input.addEventListener('change', () => {
+    rankFields.forEach(field => {
+      field.setCustomValidity('');
+      [...field.options].forEach(option => { option.disabled = !!option.value && option.value !== field.value && rankFields.some(other => other !== field && other.value === option.value); });
+    });
+  }));
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
