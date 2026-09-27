@@ -117,8 +117,8 @@ if (shareBox) {
   actions.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
     const owner = ownerInput.value.trim().toLowerCase();
     if (!owner || !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerInput.value.trim()))) return;
-    const eventData = new URLSearchParams({ role:'share', name:sourceRole, email:owner,
-      concern:`Share link opened via ${link.hasAttribute('data-whatsapp') ? 'WhatsApp' : 'SMS'} for ${roleInput.value} feedback` });
+    const eventData = new URLSearchParams({ role:'customer', name:`BUNDLUP SHARE ${sourceRole}`, email:owner,
+      suburb:'Share event', services:`Opened ${link.hasAttribute('data-whatsapp') ? 'WhatsApp' : 'SMS'} link for ${roleInput.value} feedback` });
     fetch(SHEET_ENDPOINT, {method:'POST', mode:'no-cors', keepalive:true,
       headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:eventData}).catch(() => {});
   }));
