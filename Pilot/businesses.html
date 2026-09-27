@@ -39,7 +39,7 @@ if (form) {
       bizName: values.bizName || '', bizEmail: values.bizEmail || '',
       bizCategory: values.bizCategory || '', bizSuburb: values.bizSuburb || '',
       bizVolume: values.bizVolume || '', categorySuggestion: values.categorySuggestion || '',
-      rating: '', reasons: business ? `Suggested group sizes: ${values.groupSizes || 'not specified'}` : values.priorityRank || '',
+      rating: '', reasons: business ? '' : values.priorityRank || '',
       concern: [values.concern, business && values.businessReferral ? `Business referral: ${values.businessReferral}` : ''].filter(Boolean).join(' | '),
       priorityRank: values.priorityRank || '',
       notifyPrefs: consent?.checked ? 'Email' : 'No updates'
