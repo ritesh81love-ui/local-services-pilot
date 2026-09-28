@@ -102,9 +102,22 @@ if (form) {
       // The deployed Apps Script accepts URL-encoded form fields. Its CORS response
       // is opaque on GitHub Pages, so transport success is not proof of a saved row.
       await fetch(SHEET_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:payload});
-      status.textContent = 'Thanks for sharing your interest. Your response has been sent.';
-      status.classList.add('success');
       const surveyEmail = (values.email || values.bizEmail || '').trim();
+      let updatesSaved = true;
+      if (consent?.checked || whatsappChoice.checked) {
+        const channels = [consent?.checked ? 'Email' : '', whatsappChoice.checked ? 'WhatsApp' : ''].filter(Boolean).join(', ');
+        const updates = new URLSearchParams({
+          role: 'customer', name: 'BUNDLUP UPDATE PREFS', email: surveyEmail,
+          suburb: channels, services: whatsappChoice.checked ? notifyPhone.value.trim() : ''
+        });
+        try {
+          await fetch(SHEET_ENDPOINT, {method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:updates});
+        } catch (error) { updatesSaved = false; }
+      }
+      status.textContent = updatesSaved
+        ? 'Thanks for sharing your interest. Your response has been sent.'
+        : 'Your interest was sent, but your update preference could not be sent. Please try again later.';
+      status.classList.add('success');
       const bothSelected = Boolean(form.querySelector('[data-both-choice]')?.checked);
       if (surveyEmail) {
         shareBox?.querySelector('[data-invite-owner]')?.setAttribute('value', surveyEmail);
