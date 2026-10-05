@@ -169,7 +169,7 @@ if (shareBox) {
       return;
     }
     const targetRole = roleInput.value;
-    const destination = new URL(targetRole === 'business' ? 'businesses.html#interest' : 'customers.html#interest', location.href).href;
+    const destination = new URL('index.html', location.href).href;
     const message = targetRole === 'business'
       ? `Bundlup is exploring nearby local services. If you run a business, your feedback could help shape it: ${destination}`
       : `Bundlup is exploring local services that friends and neighbours could use together. Share what would work for you: ${destination}`;
